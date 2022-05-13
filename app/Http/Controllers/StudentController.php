@@ -65,7 +65,7 @@ class StudentController extends Controller
         // บันทึกข้อมูล
 
         // บันทึกแบบ eloquant
-        $student_classid="C1AB01";
+        
 
         
         $student_id = Auth::user()->student_licence_number;
@@ -74,7 +74,7 @@ class StudentController extends Controller
 
         $registration = new Registration;
         $registration->ClassID = $request->ClassID;
-        $registration->RegStatus = "Ready";
+        $registration->RegStatus = "Wait";
         $registration->StudentID = $student_id;
         $registration->save();
         
@@ -84,8 +84,8 @@ class StudentController extends Controller
     }
 
     public function delete($ClassID){
-        $select=$ClassID;
-        $delete=Registration::where('ClassID',$select)->delete();
+        $classid=$ClassID;
+        $delete=Registration::where('ClassID',$classid)->delete();
         return redirect()->back()->with('success', "ลบข้อมูลเรียบร้อย");
     }
 
@@ -93,8 +93,34 @@ class StudentController extends Controller
         // $coursedetails = CourseDetail::all('CousreID')->get();
         // $classdetails = ClassDetail::with('CousreID')->get();
         // $registrations = Registration::with('ClassID')->get();
-
-     
         return view('student.regis',compact('coursedetails','classdetails','registrations'));
+    }
+
+    public function updated(Request $request,){
+        
+        $student_id = Auth::user()->student_licence_number;
+        $update= Registration::where('StudentID',$student_id)->select('RegStatus')->get();
+        // dd($update->"RegStatus" );
+        $request->validate([
+            'StudentID' => 'required',
+            'ClassID' => 'required',
+            'RegStatus' => 'required'
+        ]);
+
+        
+                // foreach($request){
+                //     $update
+                // }
+        
+
+        // $registration = Registration::where('StudentID',$student_id);
+        // $registration->RegStatus = "Confirmed";
+        // $registration->updated();
+
+        $update->toQuery()->update([
+            'RegStatus' => 'Confirmed',
+        ]);
+        
+        return redirect()->back()->with('success', "บันทึกข้อมูลเรียบร้อย");
     }
 }

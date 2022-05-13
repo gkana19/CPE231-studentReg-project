@@ -75,6 +75,7 @@ Route::post('/department/add',[DepartmentController::class,'store'])->name('addD
 
 Route::post('/student/register/add',[StudentController::class,'storeRegistration'])->name('addRegistration');
 Route::post('/student/register/delete/{ClassID}',[StudentController::class,'delete']);
+Route::post('/student/register/update/',[StudentController::class,'updated'])->name('updatedRegistration');
 
 Route::resource('student',StudentController::class);
 
@@ -89,5 +90,5 @@ Route::group(['middleware' => 'auth'], function () {
  Route::post('/service/add',[StudentController::class,'store'])->name('addService');
 
  Route::get('/service/edit/{id}',[StudentController::class,'edit']);
- Route::post('/service/update/{id}',[StudentController::class,'update']);
+ Route::post('/service/update/{id}',[StudentController::class,'updated']);
  Route::get('/service/delete/{id}',[StudentController::class,'delete']);

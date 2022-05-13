@@ -115,9 +115,13 @@
                     </div>
                     <div class="col-sm-8">
                     </div>
-                    <div class="col-sm-2">
-                        <a href="#insertModal"><button id="editButton" class="btn  btn-secondary mt-2 p-2 px-3">ยืนยัน</button></a>
-                    </div>
+                    <form action="{{route('updatedRegistration',$row->ClassID)}}" method="POST">
+                        @csrf
+                        
+                        <div class="col-sm-2">
+                            <a href="{{url('/service/update/')}}"><button id="editButton" class="btn  btn-secondary mt-2 p-2 px-3">ยืนยัน</button></a>
+                        </div>
+                    </form>
                 </div>
 
 
