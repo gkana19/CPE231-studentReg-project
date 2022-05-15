@@ -66,7 +66,7 @@ Route::get('/SectionManage/delete/{ClassID}',[AdminController::class,'SectionDel
 
 Route::get('/admin/sectionManage',[AdminController::class,'sectionManage'])->name('sectionManage');
 Route::post('/admin/sectionManage/add',[AdminController::class,'sectionAdd'])->name('sectionAdd');
-Route::post('/admin/sectionManage/add',[AdminController::class,'sectionEdit'])->name('sectionEdit');
+Route::post('/admin/sectionManage/update',[AdminController::class,'sectionUpdate'])->name('sectionUpdate');
 Route::get('/admin/SectionManage/delete/{ClassID}',[AdminController::class,'SectionDelete']);
 
 Route::post('/admin/studentManage/add',[AdminController::class,'studentManage_add'])->name('studentManage_add');

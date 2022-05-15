@@ -319,7 +319,19 @@ class AdminController extends Controller
         return redirect() -> back() -> with('success', "บันทึกข้อมูลเรียบร้อย");
     }
 
-    public function sectionEdit(Request $request)
+    public function sectionEdit(){
+        $classinfo = ClassDetail::Join('course_details', 'course_details.CourseID', '=', 'class_details.CourseID')
+        ->Join('schedules', 'class_details.ClassID', '=', 'schedules.ClassID')
+        ->select('course_details.CourseID', 'course_details.CourseName', 'class_details.ClassID', 'class_details.Section', 'class_details.Semester','schedules.TeacherIDdif')
+        ->paginate(8);
+        $registrations = Registration::all();
+        $departments = Department::all();
+        $CourseInfo = CourseDetail::all();
+
+        return view('admin.manage.section_edit', compact('classinfo', 'registrations','departments','CourseInfo'));
+    }
+
+    public function sectionUpdate(Request $request)
     {
         $request->validate([
             'ClassID' => 'required|unique:class_details',
