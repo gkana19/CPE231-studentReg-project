@@ -162,6 +162,17 @@ class AdminController extends Controller
 
     }
 
+    
+    public function courseManage_delete($CourseID)
+    {
+        $select = $CourseID;
+
+        $delete = CourseDetail::where('CourseID', $select)->delete();
+
+        return redirect()->back()->with('delete', "ลบข้อมูลเรียบร้อย");
+
+    }
+
 
     public function studentManage_add(Request $request) 
     {
@@ -210,23 +221,69 @@ class AdminController extends Controller
     
 
 
-    public function courseManage_delete($CourseID)
-    {
-        $select = $CourseID;
 
-        $delete = CourseDetail::where('CourseID', $select)->delete();
-
-        return redirect()->back()->with('delete', "ลบข้อมูลเรียบร้อย");
-
-    }
-
-    public function studentManage_edit($StudentID)
+    public function studentManageedit($StudentID)
     {
         $select = $StudentID;
         $student = Student::where('StudentID', $select)->get();
         dd($student);
 
         return view('admin.manage.student', compact('student'));
+    }
+
+    public function studentManage_edit($StudentID) {
+        $select = $StudentID;
+        $students = Student::where('StudentID', $select)->first();
+        $departments = Department::all();
+        $teacherselect = Teacher::Join('departments', 'teachers.DepartmentID', '=', 'departments.DepartmentID')
+        ->select('teachers.TeacherID','teachers.TeacherName','teachers.DepartmentID','departments.DepartmentName')
+        ->get();
+        return view('admin.manage.student_edit', compact('students','departments','teacherselect'));
+    }
+
+    public function studentManage_update(Request $request,$StudentID) {
+         
+        $request->validate([
+            'studentid' => 'required|unique:students',
+            'StudentName' => 'required',
+            'DOB' => 'required',
+            'Address' => 'required',
+            'DepartmentID' => 'required',
+            'Email' => 'required',
+            'Phone' => 'required',
+            'Status' => 'required',
+            'Sex' => 'required',
+        ],
+        [
+            'studentid.required'=>"กรุณาป้อนรหัสนักศึกษาด้วยครับ",
+            'studentid.unique'=>"รหัสนักศึกษานี้มีอยู่ในระบบแล้ว",
+            'StudentName.required'=>"กรุณาป้อนชื่อนักศึกษาด้วยครับ",
+            'DOB.required'=>"กรุณาป้อนวันเกิดด้วยครับ",
+            'Address.required'=>"กรุณาป้อนที่อยู่ด้วยครับ",
+            'DepartmentID.required'=>"กรุณาเลือกคณะด้วยครับ",
+            'Email.required'=>"กรุณาระบุอีเมลด้วยครับ",
+            'Phone.required'=>"กรุณาป้อนเบอร์ด้วยครับ",
+            'Status.required'=>"กรุณาป้อนสถานภาพด้วยครับ",
+            'Sex.required'=>"กรุณาระบุด้วยครับ",
+        ]
+        );
+        // send data to DB
+
+        $update = Student::where('StudentID', $StudentID)->update([
+            'studentid'=>$request->studentid,
+            'StudentName'=>$request->StudentName,
+            'DOB'=>$request->DOB,
+            'Address'=>$request->Address,
+            'DepartmentID'=>$request->DepartmentID,
+            'Email'=>$request->Email,
+            'Phone'=>$request->Phone,
+            'Status'=>$request->Status,
+            'Sex'=>$request->Sex,
+
+        ]);
+
+        return redirect('/studentManage')->with('success', "อัพเดทข้อมูลเรียบร้อย");
+
     }
 
 
