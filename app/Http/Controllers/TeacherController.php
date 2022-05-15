@@ -43,7 +43,7 @@ class TeacherController extends Controller
         $reportstudent2 = Student::Join('registrations', 'students.StudentID', '=', 'registrations.StudentID')
         ->select('students.StudentID')
         ->groupBy('students.StudentID')
-        ->paginate(5);
+        ->get();
         
 
         $reportjiew2 = Student::Join('registrations','students.StudentID', '=', 'registrations.StudentID' )

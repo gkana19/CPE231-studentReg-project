@@ -53,15 +53,15 @@
                 </div>
             @endif
 
-            @error('studentid')
+            @if ($errors->any())
                 <div class="d-inline-flex mt-3">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                        {{$message}}
+                        {{'กรุณากรอกข้อมูลให้ถูกต้อง'}}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div>
-            @enderror
+            @endif
 
     <!-- test form -->
     <div class="container rounded bg-white mt-2 mb-5 shadow-lg">
