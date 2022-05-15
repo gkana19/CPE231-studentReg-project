@@ -213,12 +213,36 @@ class AdminController extends Controller
             'Section.required'=>"กรุณาป้อนกลุ่มด้วยครับ",
             'Semester.required'=>"กรุณาป้อนภาคการศึกษาด้วยครับ",
         ]);
-        $data2 = array();
-        $data2["ClassID"] = $request -> ClassID;
-        $data2["CourseID"] = $request -> CourseID;
-        $data2["Section"] = $request -> Section;
-        $data2["Semester"] = $request -> Semester;   
-        DB :: table('class_details') -> insert($data2);
+        $data = array();
+        $data["ClassID"] = $request -> ClassID;
+        $data["CourseID"] = $request -> CourseID;
+        $data["Section"] = $request -> Section;
+        $data["Semester"] = $request -> Semester;   
+        DB :: table('class_details') -> insert($data);
+        return redirect() -> back() -> with('success', "บันทึกข้อมูลเรียบร้อย");
+    }
+
+    public function sectionEdit(Request $request)
+    {
+        $request->validate([
+            'ClassID' => 'required|unique:class_details',
+            'CourseID' => 'required',
+            'Section' => 'required',
+            'Semester' => 'required'
+        ],
+        [
+            'ClassID.required'=>"กรุณาป้อนรหัสคลาสด้วยครับ",
+            'ClassID.unique'=>"รหัสคลาสนี้มีอยู่ในระบบแล้ว",
+            'CourseID.required'=>"กรุณาป้อนรหัสวิชาด้วยครับ",
+            'Section.required'=>"กรุณาป้อนกลุ่มด้วยครับ",
+            'Semester.required'=>"กรุณาป้อนภาคการศึกษาด้วยครับ",
+        ]);
+        $data = array();
+        $data["ClassID"] = $request -> ClassID;
+        $data["CourseID"] = $request -> CourseID;
+        $data["Section"] = $request -> Section;
+        $data["Semester"] = $request -> Semester;   
+        DB::table('class_details')->where('class_details',$data["ClassID"])->update($data); 
         return redirect() -> back() -> with('success', "บันทึกข้อมูลเรียบร้อย");
     }
 
