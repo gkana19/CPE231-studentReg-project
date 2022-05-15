@@ -148,7 +148,7 @@
                                         <input type="text" name ="Sex" class="form-control" value= "Undifined" disabled> 
                                     @endif
                                 @endif
-                                <input type="text" name ="Sex" class="form-control" value= "{{$studentsinfo->Sex}}" hidden>
+                                {{-- <input type="text" name ="Sex" class="form-control" value= "{{$studentsinfo->Sex}}" hidden> --}}
                             </div>
 
                             <div class="col-md-6">
@@ -171,7 +171,7 @@
                                 @elseif ($studentsinfo->Status=="4")
                                     <input type="text" name ="Status" class="form-control" value= "Graduated" disabled>                                                                          
                                 @endif
-                                <input type="text" name ="Status" class="form-control" value= "{{$studentsinfo->Status}}" hidden>
+                                {{-- <input type="text" name ="Status" class="form-control" value= "{{$studentsinfo->Status}}" hidden> --}}
                             </div>
                         </div>                            
                         
@@ -246,10 +246,10 @@
         </div>           
     </div>
     
-    {{-- <div class="row d-flex">
+    <div class="row d-flex">
         <div class="col-12 mb-3 d-flex justify-content-center">
             <a href="#saveProfile"><button class="btn ms-sm-5 mx-2 btn-success">เพิ่มข้อมูล</button></a> 
             <a href="#saveProfile"><button class="btn ms-sm-5 mx-2 btn-secondary">แก้ไขข้อมูล</button></a> 
         </div>
-    </div>  --}}
+    </div> 
 </div>

@@ -56,8 +56,7 @@
                     <th>Email</th>
                     <th>คณะ</th>
                     <th>สาขา</th>
-                    <th>แก้ไขข้อมูล</th>
-                    <th>ลบข้อมูล</th>
+                    <th>แก้ไข </th>
                 </tr>
             </thead>
             <tbody>
@@ -70,8 +69,10 @@
                     <td>{{$row->FacultyName}}</td>
                     <td>{{$row->DepartmentName}}</td>
 
-                    <td><a href="#"><button class="btn ms-sm-5 mx-2 btn-info" data-bs-toggle="modal" data-bs-target="#editModal">แก้ไขข้อมูล</button></a> </td>
-                    <td><a onclick="return confirm('ยืนยันที่จะลบ อ.{{$row->TeacherName}}')" href="{{url('/admin/teacherManage/delete/'.$row->TeacherID)}}"><button class="btn ms-sm-5 mx-2 btn-danger" >ลบข้อมูล</button></a> </td>
+                    <td>
+                        <a href="#"><button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal">แก้ไขข้อมูล</button></a>
+                        <a onclick="return confirm('ยืนยันที่จะลบ อ.{{$row->TeacherName}}')" href="{{url('/admin/teacherManage/delete/'.$row->TeacherID)}}"><button class="btn btn-danger" >ลบข้อมูล</button></a> 
+                    </td>
 
                 </tr>
                 @endforeach
@@ -88,25 +89,22 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">แก้ไขข้อมูลนักศึกษา</h5>
+                <h5 class="modal-title">แก้ไขข้อมูลอาจารย์</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button> <!-- close button-->
             </div>
             <div class="modal-body">
                 <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12"><label class="labels">Student ID.</label><input type="text" class="form-control" placeholder="id before" value=""></div>
-                            <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name before" value=""></div>
-                            <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname before"></div>
+                            <div class="col-md-12"><label class="labels">รหัสอาจารย์</label><input type="text" class="form-control" placeholder="id before" value=""></div>
+                            <div class="col-md-6"><label class="labels">ชื่อ-สกุล</label><input type="text" class="form-control" placeholder="first name before" value=""></div>
+                            <div class="col-md-6"><label class="labels">วัน/เดือน/ปีเกิด</label><input type="text" class="form-control" placeholder="dob before" value=""></div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"><label class="labels">DOB</label><input type="text" class="form-control" placeholder="dob before" value=""></div>
-                            <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="ddress before" value=""></div>
-                            <div class="col-md-12"><label class="labels">Department</label><input type="text" class="form-control" placeholder="department before" value=""></div>
                             <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="email before" value=""></div>
-                            <div class="col-md-12"><label class="labels">Phone</label><input type="text" class="form-control" placeholder="phone number before" value=""></div>
-                            <div class="col-md-12"><label class="labels">Status</label><input type="text" class="form-control" placeholder="status before" value=""></div>
-                            <div class="col-md-12"><label class="labels">Sex</label><input type="text" class="form-control" placeholder="Sex before" value=""></div>
-                            <div class="col-md-12"><label class="labels">Advisor</label><input type="text" class="form-control" placeholder="Advisor name before" value=""></div>
+                            <div class="col-md-12"><label class="labels">ภาควิชา</label><input type="text" class="form-control" placeholder="department before" value=""></div>
+                            <div class="col-md-12"><label class="labels">ที่อยู่</label><input type="text" class="form-control" placeholder="ddress before" value=""></div>
+                            <div class="col-md-12"><label class="labels">เบอร์</label><input type="text" class="form-control" placeholder="phone number before" value=""></div>
+                            <div class="col-md-12"><label class="labels">เพศ</label><input type="text" class="form-control" placeholder="Sex before" value=""></div>
                         </div>
                 </div>
             </div>
@@ -132,22 +130,18 @@
                 <div class="modal-body">
                     <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-12"><label class="labels">Teacher ID.</label>
+                                <div class="col-md-12"><label class="labels">รหัสอาจารย์</label>
                                 @error('TeacherID')<span class="text-danger py-2">({{$message}})</span>@enderror
-                                <input type="text" name="TeacherID"class="form-control" placeholder="" value=""></div>
+                                <input type="text" name="TeacherID"class="form-control" placeholder="" value="{{old('TeacherID')}}"></div>
                                 
-                                <div class="col-md-12"><label class="labels">Name</label>
+                                <div class="col-md-12"><label class="labels">ชื่อ-สกุล</label>
                                 @error('TeacherName')<span class="text-danger py-2">({{$message}})</span>@enderror
-                                <input type="text" name="TeacherName" class="form-control" placeholder="" value=""></div>
+                                <input type="text" name="TeacherName" class="form-control" placeholder="" value="{{old('TeacherName')}}"></div>
                                 
                             </div>
                             <div class="row">
-                                <div class="col-md-12"><label class="labels mt-3">Department (required)</label>
+                                <div class="col-md-12"><label class="labels mt-3">ภาควิชา (required)</label>
                                 @error('DepartmentID')<span class="text-danger py-2">({{$message}})</span>@enderror
-                                    {{-- <input class="ml-2" list = "Department" name="DepartmentID" >
-                                    <datalist id="Department">
-                                        <option value="101" >CPE<option value="102">ME<option value="111">Maths
-                                    </datalist> --}}
                                     <select name="DepartmentID" class="form-select">
                                         <option value="">Select department...</option>
                                         @foreach($departments as $row)
@@ -158,15 +152,15 @@
 
                                 <div class="col-md-12 mt-2"><label class="labels">Email</label>
                                 @error('Email')<span class="text-danger py-2">({{$message}})</span>@enderror
-                                <input type="text" name="Email" class="form-control" placeholder="" value=""></div>
+                                <input type="text" name="Email" class="form-control" placeholder="" value="{{old('Email')}}"></div>
 
-                                <div class="col-md-12 mt-2"><label class="labels">Phone</label>
+                                <div class="col-md-12 mt-2"><label class="labels">เบอร์</label>
                                 @error('Email')<span class="text-danger py-2">({{$message}})</span>@enderror
-                                <input type="text" name="Phone" class="form-control" placeholder="" value=""></div>    
+                                <input type="text" name="Phone" class="form-control" placeholder="" value="{{old('Phone')}}"></div>    
 
-                                <div class="col-md-12 mt-2"><label class="labels">Address</Address></label>
+                                <div class="col-md-12 mt-2"><label class="labels">ที่อยู่</Address></label>
                                 @error('Address')<span class="text-danger py-2">({{$message}})</span>@enderror
-                                <input type="text" name="Address" class="form-control" placeholder="" value=""></div>
+                                <input type="text" name="Address" class="form-control" placeholder="" value="{{old('Address')}}"></div>
                                 
                             </div>
                     </div>

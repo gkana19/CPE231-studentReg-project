@@ -11,6 +11,7 @@ use App\Models\CourseDetail;
 use App\Models\ClassDetail;
 use App\Models\Registration;
 use App\Models\Department;
+use App\Models\Schedule;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\facades\DB;
@@ -57,7 +58,7 @@ class AdminController extends Controller
     {
         $courseinfo = CourseDetail::Join('departments', 'course_details.DepartmentID', '=', 'departments.DepartmentID')
         ->select('course_details.CourseID', 'course_details.CourseName', 'course_details.Credit', 'departments.DepartmentName', 'departments.FacultyName')
-        ->paginate(5);
+        ->paginate(8);
         $coursecount = CourseDetail::Join('departments', 'course_details.DepartmentID', '=', 'departments.DepartmentID')
         ->select('course_details.CourseID', 'course_details.CourseName', 'course_details.Credit', 'departments.DepartmentName', 'departments.FacultyName')
         ->get();   
@@ -74,7 +75,7 @@ class AdminController extends Controller
         $classinfo = ClassDetail::Join('course_details', 'course_details.CourseID', '=', 'class_details.CourseID')
         ->Join('schedules', 'class_details.ClassID', '=', 'schedules.ClassID')
         ->select('course_details.CourseID', 'course_details.CourseName', 'class_details.ClassID', 'class_details.Section', 'class_details.Semester','schedules.TeacherIDdif')
-        ->paginate(5);
+        ->paginate(8);
         $registrations = Registration::all();
         $departments = Department::all();
         $CourseInfo = CourseDetail::all();
@@ -82,16 +83,83 @@ class AdminController extends Controller
         return view('admin.manage.section', compact('classinfo', 'registrations','departments','CourseInfo'));
     }
 
-    function scheduleManage() {
+    function scheduleManage() 
+    {
+        $scheduleinfo = Schedule::Join('teachers', 'schedules.TeacherIDdif', '=', 'teachers.TeacherID')
+        ->select('schedules.*', 'teachers.TeacherName')
+        ->paginate(8);
+        $registrations = Registration::all();
+        $departments = Department::all();
+        return view('admin.manage.schedule', compact('scheduleinfo', 'registrations', 'departments'));
+    }
 
-        return view('admin.manage.schedule');
+    public function courseManage_add(Request $request) 
+    {
+        // dd($request);
+        $request->validate(
+            [                    
+                'CourseID' => 'required|unique:course_details',
+                'CourseName' => 'required',
+                'DepartmentID' => 'required',
+                'Credit' => 'required|integer',
+            ],
+            [
+                'CourseID.required' => "กรุณาป้อนรหัสวิชาด้วยครับ",
+                'CourseID.unique' => "รหัสนักวิชานี้มีอยู่ในระบบแล้ว",
+                'CourseName.required' => "กรุณาป้อนชื่อวิชาด้วยครับ",
+                'DepartmentID.required' => "กรุณาเลือกคณะด้วยครับ",
+                'Credit.required' => "กรุณาหน่วยกิตด้วยครับ",
+                'Credit.integer' => "กรุณากรอกตัวเลขจำนวนเต็ม"
+            ]
+        );
+        // send data to DB
+        $coursedetail= new CourseDetail;
+        $coursedetail->CourseID = $request->CourseID;
+        $coursedetail->CourseName = $request->CourseName;
+        $coursedetail->DepartmentID = $request->DepartmentID;
+        $coursedetail->Credit = $request->Credit;
+        $coursedetail->save(); 
+
+        return redirect()->back()->with('success', "บันทึกข้อมูลเรียบร้อย");
     }
 
     public function courseManage_edit($CourseID) {
         $select = $CourseID;
-        $coursedetail = CourseDetail::where('CourseID', $select)->get();
+        $coursedetails = CourseDetail::where('CourseID', $select)->first();
         $departments = Department::all();
-        return view('admin.manage.course_edit', compact('coursedetail','departments'));
+        return view('admin.manage.course_edit', compact('coursedetails','departments'));
+    }
+
+    public function courseManage_update(Request $request,$CourseID) {
+         
+         $request->validate(
+            [                    
+                'CourseID' => 'required',
+                'CourseName' => 'required',
+                'DepartmentID' => 'required',
+                'Credit' => 'required|integer',
+            ],
+            [
+                'CourseID.required' => "กรุณาป้อนรหัสวิชาด้วยครับ",
+                'CourseID.unique' => "รหัสนักวิชานี้มีอยู่ในระบบแล้ว",
+                'CourseName.required' => "กรุณาป้อนชื่อวิชาด้วยครับ",
+                'DepartmentID.required' => "กรุณาเลือกคณะด้วยครับ",
+                'Credit.required' => "กรุณาหน่วยกิตด้วยครับ",
+                'Credit.integer' => "กรุณากรอกตัวเลขจำนวนเต็ม"
+            ]
+        );
+        // send data to DB
+
+        $update = CourseDetail::where('CourseID', $CourseID)->update([
+            'CourseID'=>$request->CourseID,
+            'CourseName'=>$request->CourseName,
+            'DepartmentID'=>$request->DepartmentID,
+            'Credit'=>$request->Credit,
+
+        ]);
+
+        return redirect('/admin/courseManage')->with('success', "อัพเดทข้อมูลเรียบร้อย");
+
     }
 
 
@@ -139,35 +207,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', "บันทึกข้อมูลเรียบร้อย");
     }
 
-    public function courseManage_add(Request $request) 
-    {
-        // dd($request);
-        $request->validate(
-            [                    
-                'CourseID' => 'required|unique:course_details',
-                'CourseName' => 'required',
-                'DepartmentID' => 'required',
-                'Credit' => 'required|integer',
-            ],
-            [
-                'CourseID.required' => "กรุณาป้อนรหัสวิชาด้วยครับ",
-                'CourseID.unique' => "รหัสนักวิชานี้มีอยู่ในระบบแล้ว",
-                'CourseName.required' => "กรุณาป้อนชื่อวิชาด้วยครับ",
-                'DepartmentID.required' => "กรุณาเลือกคณะด้วยครับ",
-                'Credit.required' => "กรุณาหน่วยกิตด้วยครับ",
-                'Credit.integer' => "กรุณากรอกตัวเลขจำนวนเต็ม"
-            ]
-        );
-        // send data to DB
-        $coursedetail= new CourseDetail;
-        $coursedetail->CourseID = $request->CourseID;
-        $coursedetail->CourseName = $request->CourseName;
-        $coursedetail->DepartmentID = $request->DepartmentID;
-        $coursedetail->Credit = $request->Credit;
-        $coursedetail->save(); 
-
-        return redirect()->back()->with('success', "บันทึกข้อมูลเรียบร้อย");
-    }
+    
 
 
     public function courseManage_delete($CourseID)

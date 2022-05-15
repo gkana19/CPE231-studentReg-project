@@ -50,7 +50,7 @@
             <div class="mt-4" x-show="role_id != 1">
                 <x-jet-label for="DepartmentID" value="{{ __('Department:') }}" />
                 <select name="DepartmentID" x-model="DepartmentID" class="block mt-1 w-full border-gray-300 focus:border-red-700 focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                    <option value="" selected>Choose department...</option>
+                    <option value="" selected>Select department...</option>
                     <option value="101">Computer Engineering</option>
                     <option value="102">ME</option>
                     <option value="111">Maths</option>

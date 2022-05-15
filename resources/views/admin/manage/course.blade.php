@@ -63,8 +63,7 @@
                         <th>หน่วยกิต</th>
                         <th>ภาควิชา</th>
                         <th>จำนวนกลุ่ม</th>
-                        <th>แก้ไขข้อมูล</th>
-                        <th>ลบข้อมูล</th>
+                        <th>แก้ไข</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,8 +75,11 @@
                         <td>{{$row->DepartmentName}}</td>
                         <td>{{$classinfo->where('CourseID',$row->CourseID)->count()}}</td>
                         
-                        <td><a href="{{url('/admin/courseManage/edit/'.$row->CourseID)}}" class="btn ms-sm-5 mx-2 btn-danger" >แก้ไขข้อมูล</a></td>
-                        <td><a href="{{url('/admin/courseManage/delete/'.$row->CourseID)}}" class="btn ms-sm-5 mx-2 btn-danger" onclick="return confirm('Are you sure?')">ลบข้อมูล</a></td>
+                        <td>
+                            <a href="{{url('/admin/courseManage/edit/'.$row->CourseID)}}" class="btn btn-info" >แก้ไขข้อมูล</a>
+                            <a href="{{url('/admin/courseManage/delete/'.$row->CourseID)}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">ลบข้อมูล</a>
+                        </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -113,7 +115,7 @@
                                 @error('DepartmentID')<span class="text-danger py-0">({{$message}})</span>@enderror
 
                                     <select name="DepartmentID" class="form-select">
-                                        <option value="" selected>Choose department...</option>
+                                        <option value="" selected>Select department...</option>
                                         @foreach($departments as $row)
                                             <option value="{{$row->DepartmentID}}">{{$row->DepartmentName}}</option>
                                         @endforeach

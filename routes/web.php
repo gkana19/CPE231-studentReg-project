@@ -42,17 +42,25 @@ Route::get('/about',[AboutController::class,'about'])->name('about');
 
 // For Admin
 Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
-Route::get('/admin/studentManage',[AdminController::class,'studentManage'])->name('studentManage');
-Route::get('/admin/teacherManage',[AdminController::class,'teacherManage'])->name('teacherManage');
-Route::post('/admin/teacherManage/add',[AdminController::class,'teacherAdd'])->name('teacherAdd');
-Route::get('/admin/teacherManage/delete/{TeacherID}',[AdminController::class,'teacherDelete']);
+Route::get('/studentManage',[AdminController::class,'studentManage'])->name('studentManage');
+Route::get('/teacherManage',[AdminController::class,'teacherManage'])->name('teacherManage');
+Route::post('/teacherManage/add',[AdminController::class,'teacherAdd'])->name('teacherAdd');
+Route::get('/teacherManage/delete/{TeacherID}',[AdminController::class,'teacherDelete']);
 
+Route::get('/courseManage',[AdminController::class,'courseManage'])->name('courseManage');
+Route::post('/courseManage/add',[AdminController::class,'courseManage_add'])->name('courseManage_add');
+Route::get('/courseManage/delete/{CourseID}',[AdminController::class,'courseManage_delete']);
+Route::get('/courseManage/edit/{CourseID}',[AdminController::class,'courseManage_edit']);
 
 Route::get('/admin/courseManage',[AdminController::class,'courseManage'])->name('courseManage');
 Route::post('/admin/courseManage/add',[AdminController::class,'courseManage_add'])->name('courseManage_add');
 Route::get('/admin/courseManage/delete/{CourseID}',[AdminController::class,'courseManage_delete']);
 Route::get('/admin/courseManage/edit/{CourseID}',[AdminController::class,'courseManage_edit']);
+Route::post('/admin/courseManage/update/{CourseID}',[AdminController::class,'courseManage_update']);
 
+Route::get('/sectionManage',[AdminController::class,'sectionManage'])->name('sectionManage');
+Route::post('/sectionManage/add',[AdminController::class,'sectionAdd'])->name('sectionAdd');
+Route::get('/SectionManage/delete/{ClassID}',[AdminController::class,'SectionDelete']);
 
 
 Route::get('/admin/sectionManage',[AdminController::class,'sectionManage'])->name('sectionManage');
@@ -66,6 +74,7 @@ Route::get('/admin/studentManage/edit/{StudentID}',[AdminController::class,'stud
 Route::post('/admin/studentManage/edit',[AdminController::class,'studentManage_edit']);
 Route::post('/service/update/{id}',[StudentController::class,'studentManage_edit'])->name('studentManage_edit');
 
+
 Route::get('/admin/scheduleManage',[AdminController::class,'scheduleManage'])->name('scheduleManage');
 
 
@@ -78,8 +87,9 @@ Route::post('/myinfo/Update',[myinfoController::class,'UpdateStudent'])->name('U
 
 
 
+
 // For Teacher
-Route::get('/teacher/report',[TeacherController::class,'report'])->name('t.report');
+Route::get('/statistics_report',[TeacherController::class,'report'])->name('t.report');
 
 // Department
 Route::get('/department/edit/{id}',[DepartmentController::class,'edit']);

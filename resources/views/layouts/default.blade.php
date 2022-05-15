@@ -29,8 +29,6 @@
     <header class="header shadow-sm" id="header">
         <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
         
-        {{-- <div class="header_img">  <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt=""> </div> --}}
-
         <!-- Dropdown button -->
         <div class="dropdown" style="margin-left: 80%">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-offset="5,10" data-bs-toggle="dropdown" aria-expanded="false">
@@ -109,10 +107,6 @@
         </nav>
     </div>
 
-    
-    
-    
-    
     <br>
     <br>
 
